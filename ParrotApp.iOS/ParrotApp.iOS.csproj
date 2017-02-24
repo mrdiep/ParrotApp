@@ -10,7 +10,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>ParrotApp.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>ParrotApp.iOS</AssemblyName>
+    <AssemblyName>ParrotAppiOS</AssemblyName>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>

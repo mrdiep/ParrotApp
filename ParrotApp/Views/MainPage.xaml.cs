@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace ParrotApp
+namespace ParrotApp.Views
 {
     public partial class MainPage : ContentPage
     {

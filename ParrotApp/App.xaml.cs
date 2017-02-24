@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using ParrotApp.ViewModels;
+using ParrotApp.Views;
 using Xamarin.Forms;
 
 namespace ParrotApp
 {
     public partial class App : Application
     {
+        public static ServiceLocator Locator { get; internal set; }
+
         public App()
         {
             InitializeComponent();
-
-            MainPage = new ParrotApp.MainPage();
+            App.Locator = new ServiceLocator();
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()
