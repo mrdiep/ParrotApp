@@ -40,7 +40,6 @@
     </Compile>
     <Compile Include="Data\DataConnection.cs" />
     <Compile Include="Data\Song.cs" />
-    <Compile Include="Helper\FileHelper.cs" />
     <Compile Include="Helper\IFileHelper.cs" />
     <Compile Include="Helper\TextParser.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />

@@ -10,12 +10,12 @@ namespace ParrotApp.Data
         SQLiteConnection db;
         public DataConnection()
         {
-            var path = DependencyService.Get<IFileHelper>().GetLocalFilePath("TodoSQLite.db3");
+            var path = DependencyService.Get<IFileHelper>().GetLocalFilePath("test.db3");
         }
 
-        public IEnumerable<object> QueryAllMetadata()
+        public IEnumerable<Song> QueryAllSongMetadata()
         {
-            return db.Query<object>("select 'Price' as 'Money', 'Time' as 'Date' from Valuation where StockId = ?", 1);
+            return db.Query<Song>("select 'id' , 'name' from SongMetadata");
         }
     }
 }

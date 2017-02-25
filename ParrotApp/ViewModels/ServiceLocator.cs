@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Ninject;
 using Ninject.Modules;
+using ParrotApp.Data;
 
 namespace ParrotApp.ViewModels
 {
@@ -19,6 +20,7 @@ namespace ParrotApp.ViewModels
         }
 
         public HomeViewModel HomeViewModel => Container.Get<HomeViewModel>();
+        public DataConnection DataConnection => Container.Get<DataConnection>();
     }
 
     public class MainInjectModule : NinjectModule
@@ -26,6 +28,7 @@ namespace ParrotApp.ViewModels
         public override void Load()
         {
             Kernel.Bind<HomeViewModel>().ToSelf();
+            Kernel.Bind<DataConnection>().ToSelf();
         }
     }
 }

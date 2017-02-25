@@ -13,7 +13,8 @@ namespace ParrotApp.Helper
         {
             var lines = text.Split('\n');
             var formatPre = "<pre>{0}</pre>";
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
+
             foreach (var line in lines)
             {
                 builder.AppendLine(GetHtmlLineMarkup(line));
