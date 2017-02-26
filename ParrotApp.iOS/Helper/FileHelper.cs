@@ -66,7 +66,20 @@ namespace ParrotApp.iOS.Helper
 
         public string GetLocalFilePath(string filename)
         {
-            throw new NotImplementedException();
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            return Path.Combine(path, filename);
+        }
+
+        public void WriteStreamToLocalFile(Stream stream, string filename)
+        {
+            byte[] data;
+            using (var memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                data = memoryStream.ToArray();
+            }
+
+            File.WriteAllBytes(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), filename), data);
         }
     }
 }

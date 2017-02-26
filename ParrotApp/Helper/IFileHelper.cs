@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,5 +21,7 @@ namespace ParrotApp.Helper
         Task DeleteAsync(string filename);
 
         string GetLocalFilePath(string filename);
+        void WriteStreamToLocalFile(Stream stream, string filename);
+
     }
 }

@@ -16,9 +16,9 @@ namespace ParrotApp.UWP.Helper
             throw new NotImplementedException();
         }
 
-        public Task<bool> ExistsAsync(string filename)
+        public async Task<bool> ExistsAsync(string filename)
         {
-            throw new NotImplementedException();
+            return File.Exists(Path.Combine(ApplicationData.Current.LocalFolder.Path, filename));
         }
 
         public Task<IEnumerable<string>> GetFilesAsync()
@@ -30,7 +30,17 @@ namespace ParrotApp.UWP.Helper
         {
             return Path.Combine(ApplicationData.Current.LocalFolder.Path, filename);
         }
+        public void WriteStreamToLocalFile(Stream stream, string filename)
+        {
+            byte[] data;
+            using (var memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                 data = memoryStream.ToArray();
+            }
 
+            File.WriteAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, filename), data);
+        }
         public Task<string> ReadTextAsync(string filename)
         {
             throw new NotImplementedException();

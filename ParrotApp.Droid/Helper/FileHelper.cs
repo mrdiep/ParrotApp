@@ -1,3 +1,4 @@
+using ParrotApp.Droid.Helper;
 using ParrotApp.Helper;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-[assembly: Dependency(typeof(ParrotApp.Droid.Helper.FileHelper))]
+[assembly: Dependency(typeof(FileHelper))]
+
 namespace ParrotApp.Droid.Helper
 {
     public class FileHelper : IFileHelper
@@ -57,12 +59,12 @@ namespace ParrotApp.Droid.Helper
             return Task.FromResult(true);
         }
 
-        string GetDocsFolder()
+        private string GetDocsFolder()
         {
             return System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         }
 
-        string GetFilePath(string filename)
+        private string GetFilePath(string filename)
         {
             return Path.Combine(GetDocsFolder(), filename);
         }
@@ -71,6 +73,18 @@ namespace ParrotApp.Droid.Helper
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             return Path.Combine(path, filename);
+        }
+
+        public void WriteStreamToLocalFile(Stream stream, string filename)
+        {
+            byte[] data;
+            using (var memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                data = memoryStream.ToArray();
+            }
+
+            File.WriteAllBytes(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), filename), data);
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Ninject;
 using Ninject.Modules;
 using ParrotApp.Data;
+using ParrotApp.Helper;
 using System.Collections.Generic;
+using Xamarin.Forms;
 
 namespace ParrotApp.ViewModels
 {
@@ -27,8 +29,17 @@ namespace ParrotApp.ViewModels
     {
         public override void Load()
         {
-            Kernel.Bind<HomeViewModel>().ToSelf().InSingletonScope();
-            Kernel.Bind<DataConnection>().ToSelf().InSingletonScope();
+            Kernel.Bind<HomeViewModel>()
+                .ToSelf()
+                .InSingletonScope();
+
+            Kernel.Bind<DataConnection>()
+                .ToSelf()
+                .InSingletonScope();
+
+            Kernel.Bind<IFileHelper>()
+                .ToMethod(x => DependencyService.Get<IFileHelper>())
+                .InSingletonScope();
         }
     }
 }

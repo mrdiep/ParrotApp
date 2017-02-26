@@ -13,7 +13,7 @@ namespace ParrotApp.Data
         [Column("chord")]
         public string Chord { get; set; }
 
-        [Column("rhythm_tag")]
+        [Column("rhythm")]
         public string Rhythm { get; set; }
 
         private string author;
@@ -50,6 +50,10 @@ namespace ParrotApp.Data
 
         public static string TrimArtistName(string name)
         {
+            if (name == null)
+            {
+                return string.Empty;
+            }
             return name.Trim(new char[] { ' ', ',', ';' });
         }
     }
