@@ -1,5 +1,4 @@
-﻿
-using SQLite;
+﻿using SQLite;
 
 namespace ParrotApp.Data
 {
@@ -18,12 +17,34 @@ namespace ParrotApp.Data
         public string Rhythm { get; set; }
 
         private string author;
+
         [Column("author")]
-        public string Author { get { return author; } set { author = TrimArtistName(value); } }
+        public string Author
+        {
+            get
+            {
+                return author;
+            }
+            set
+            {
+                author = TrimArtistName(value);
+            }
+        }
 
         private string singer;
+
         [Column("singer")]
-        public string Singer { get { return singer; } set { singer = TrimArtistName(value); } }
+        public string Singer
+        {
+            get
+            {
+                return singer;
+            }
+            set
+            {
+                singer = TrimArtistName(value);
+            }
+        }
 
         public override string ToString() => Title;
 

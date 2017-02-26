@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Ninject;
+﻿using Ninject;
 using Ninject.Modules;
 using ParrotApp.Data;
+using System.Collections.Generic;
 
 namespace ParrotApp.ViewModels
 {

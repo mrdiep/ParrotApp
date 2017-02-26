@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace ParrotApp.Helper
 {
@@ -45,9 +41,7 @@ namespace ParrotApp.Helper
                 lineText = lineText.Remove(match.Index, match.Length);
                 lastIndex = match.Index;
                 lastValue = value;
-
             } while (true);
-
 
             builder.Append("\r\n" + lineText);
             return builder.ToString();

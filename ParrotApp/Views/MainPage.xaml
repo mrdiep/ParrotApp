@@ -15,10 +15,15 @@
         <Label Text="HOP AM VIET"
                VerticalTextAlignment="Center"
                HorizontalTextAlignment="Center" />
-        <Label Grid.Row="2"
-               Text="{Binding SongMetadatas.Count}" />
+        <StackLayout Grid.Row="2" Orientation="Horizontal">
+           
+            <Editor Text="{Binding SongFilter.Name, Mode=TwoWay}" />
+            <Button Text="Tìm"
+                    Command="{Binding SearchSongCommand}"/>
+        </StackLayout>
+       
         <ListView Grid.Row="1"
-                  ItemsSource="{Binding SongMetadatas}">
+                  ItemsSource="{Binding SearchResults}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

@@ -7,7 +7,8 @@ namespace ParrotApp.Data
 {
     public class DataConnection
     {
-        SQLiteConnection db;
+        private SQLiteConnection db;
+
         public DataConnection()
         {
             var path = DependencyService.Get<IFileHelper>().GetLocalFilePath("hopam.db3");
