@@ -1,20 +1,35 @@
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(':memory:');
-var fs  =require('fs');
+var db = new sqlite3.Database('./hopam3.db3');
+var fs = require('fs');
 module.exports = {
-    init:function(completedCallback){
+    addData: function(songData) {
         db.serialize(function() {
-            //db.run(fs.readdirSync('./table_schema.sqlite'));
-            
-            //var stmt = db.prepare("INSERT INTO song VALUES (?,?,?,?,?,?)");
-            //for (var i = 0; i < 10; i++) {
-            //    stmt.run()
-            //}
-            //stmt.finalize();
-            
-            //db.each("SELECT id FROM song", function(err, row) {
-            //    console.log(row.id + ": " + row.info);
-            //});
+            var createTable = function() {
+                var tableSql = fs.readFileSync('./table_schema.sqlite', 'utf8');
+                db.run(tableSql);
+                console.log('done created table');
+            }
+
+            var add3 = function() {
+                var stmt = db.prepare('INSERT INTO "song"("id", "title", "rhythm", "chord", "author", "singer") VALUES (?,?,?,?,?,?);');
+                for (var i = 0; i < songData.length; i++) {
+                    var song = songData[i];
+                    console.log(song.id);
+                    stmt.run(
+                        song.id,
+                        song.title,
+                        song.rythm,
+                        song.chord,
+                        song.author,
+                        song.singer
+                    );
+                }
+                stmt.finalize();
+                console.log('done added data');
+            }
+
+            createTable();
+            add3();
         });
     }
 }

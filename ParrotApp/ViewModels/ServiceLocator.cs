@@ -27,8 +27,8 @@ namespace ParrotApp.ViewModels
     {
         public override void Load()
         {
-            Kernel.Bind<HomeViewModel>().ToSelf();
-            Kernel.Bind<DataConnection>().ToSelf();
+            Kernel.Bind<HomeViewModel>().ToSelf().InSingletonScope();
+            Kernel.Bind<DataConnection>().ToSelf().InSingletonScope();
         }
     }
 }

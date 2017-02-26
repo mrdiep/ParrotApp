@@ -1,8 +1,8 @@
-CREATE TABLE song (
- id integer PRIMARY KEY,
- song text NOT NULL,
- author text NOT NULL,
- singer text NOT NULL,
- rhythm text NOT NULL,
- chord text NOT NULL
+CREATE TABLE "song" (
+    "id" INTEGER PRIMARY KEY NOT NULL,
+    "title" TEXT,
+    "rhythm" TEXT,
+    "chord" TEXT,
+    "author" TEXT,
+    "singer" TEXT
 );

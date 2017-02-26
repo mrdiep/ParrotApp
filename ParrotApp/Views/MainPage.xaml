@@ -6,8 +6,78 @@
              BindingContext="{Binding Source={x:Static local:App.Locator}, Path=HomeViewModel}"
              >
 
-	<Label Text="{Binding TestString}" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Center" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="80" />
+        </Grid.RowDefinitions>
+        <Label Text="HOP AM VIET"
+               VerticalTextAlignment="Center"
+               HorizontalTextAlignment="Center" />
+        <Label Grid.Row="2"
+               Text="{Binding SongMetadatas.Count}" />
+        <ListView Grid.Row="1"
+                  ItemsSource="{Binding SongMetadatas}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label Text="{Binding Title}"
+                                   Margin="5,3,3,3"
+                                   FontSize="Medium" />
+                            <StackLayout Orientation="Horizontal" Grid.Row="1">
+                                <Label Text="Tác giả:"
+                                       Grid.Row="1"
+                                       Margin="10,0,3,3"
+                                       FontSize="Small"
+                                       TextColor="Gray" />
+
+                                <Label Text="{Binding Author}"
+                                       Grid.Row="1"
+                                       Margin="10,0,20,3"
+                                       FontSize="Small"
+                                       FontAttributes="Italic"
+                                       TextColor="Gray" />
+
+                                <Label Text="Ca sĩ:"
+                                       Grid.Row="1"
+                                       Margin="10,0,3,3"
+                                       FontSize="Small"
+                                       TextColor="Gray" />
+
+                                <Label Text="{Binding Singer}"
+                                       Grid.Row="1"
+                                       Margin="10,0,3,3"
+                                       FontAttributes="Italic"
+                                       FontSize="Small"
+                                       TextColor="Gray" />
+
+                                <Label Text="Âm:"
+                                       Grid.Row="1"
+                                       Margin="10,0,3,3"
+                                       FontSize="Small"
+                                       TextColor="Gray" />
+
+                                <Label Text="{Binding Chord}"
+                                       Grid.Row="1"
+                                       Margin="10,0,3,3"
+                                       FontAttributes="Italic"
+                                       FontSize="Small"
+                                       TextColor="Gray" />
+                            </StackLayout>
+                            
+                        </Grid>
+                    </ViewCell>
+
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+
 
 </ContentPage>
