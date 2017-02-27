@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace ParrotApp.Views
 {
@@ -12,6 +7,11 @@ namespace ParrotApp.Views
         public MainPage()
         {
             InitializeComponent();
+            listView.ItemAppearing += ListView_ItemAppearing;
+        }
+
+        private void ListView_ItemAppearing(object sender, ItemVisibilityEventArgs e)
+        {
         }
     }
 }

@@ -43,6 +43,9 @@ var mongoDbToSqlite = function() {
         })
     });
 }
-
+crawler.get(4, function(lyric) {
+     console.log('======================');
+     console.log(lyric);
+});
 //database.init(parseToMongoDb);
-database.init(mongoDbToSqlite);
+//database.init(mongoDbToSqlite);

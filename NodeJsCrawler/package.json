@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.1.5",
     "cheerio": "^0.22.0",
     "fs": "0.0.1-security",
     "http": "0.0.0",

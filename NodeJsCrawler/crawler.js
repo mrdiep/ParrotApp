@@ -5,19 +5,20 @@ var jsdom = require('jsdom');
 var fs = require('fs');
 var jquery = fs.readFileSync("./libs/jquery.js", "utf-8");
 let cheerio = require('cheerio')
+let async = require('async');
 
 module.exports = {
     get: function(id, callback, version) {
-        var _ = this;
-        try{
+        let _ = this;
+        try {
 
-            if(version!==undefined){
+            if (version !== undefined) {
                 version = '/' + version;
             }
 
             _http.get('https://hopamchuan.com/song/' + id + '/hihehe' + version, function(res) {
-                try{
-                    var body = '';
+                try {
+                    let body = '';
                     res.on('data', function(data) {
                         body += data;
                     });
@@ -25,51 +26,124 @@ module.exports = {
                     res.on('end', function() {
                         _.parse(id, body, callback, version);
                     });
-                }catch(err){console.log('==========' + id);console.log(err)};
-            
+                } catch (err) {
+                    console.log('==========' + id);
+                    console.log(err)
+                };
+
             });
-        }catch(err){console.log('==========' + id);console.log(err)};
+        } catch (err) {
+            console.log('==========' + id);
+            console.log(err)
+        };
     },
 
     parse: function(id, httpContent, callback, version) {
-        var _ = this;
+        let _ = this;
         jsdom.env({
             html: httpContent,
             src: [jquery],
             done: function(err, window) {
-                try{
-                    var $ = window.$;
-                    var title = $('#song-title').text().trim();
-                    var rythm = $('#display-rhythm').text().trim();
-                    var chord  =$('#song-key').text().trim();
-                    var authors = $('#song-author').text().trim().split('         ').map(function(e){return e.trim()}).filter(function(e){return e!==''});
-                    var singer = authors[0];
-                    var author = authors[1];                
-                    var Q = cheerio.load($('#song-lyric')[0].innerHTML);
-                    var content='';
-                    Q('.chord_lyric_line').each(function(i,value){
+                try {
+                    let $ = window.$;
+                    let title = $('#song-title').text().trim();
+                    let rythm = $('#display-rhythm').text().trim();
+                    let chord = $('#song-key').text().trim();
+                    let authors = $('#song-author').text().trim().split('         ').map(function(e) {
+                        return e.trim()
+                    }).filter(function(e) {
+                        return e !== ''
+                    });
+                    let singer = authors[0];
+                    let author = authors[1];
+
+                    let Q = cheerio.load($('#song-lyric')[0].innerHTML);
+                    let content = '';
+                    Q('.chord_lyric_line').each(function(i, value) {
                         content = content + '\r\n' + Q(this).text();
                     });
 
-                    if(version == undefined){
-                        var version = [];    
-                        Q('#version-select-box option').each(function(d,i){
-                            version.push({
-                                songId:id,
-                                description:'',
-                                star:'',
-                                votes:''
-                            });
+                    let downloadVersion = function() {
+                        return new Promise(function(resolve, reject) {
+                            if (version == undefined) {
+                                let contentVersions = [];
+
+                                let versions = [];
+                                Q = cheerio.load($('#version-select')[0].innerHTML);
+                                Q('option').each(function(d, i) {
+                                    let item = Q(this);
+                                    versions.push({
+                                        songId: id,
+                                        description:item.attr('data-description'),
+                                        star:item.attr('data-star'),
+                                        votes: item.attr('data-votes'),
+                                        urlValue: item.attr('value')
+                                    });
+                                });
+
+                                let downloadVersionTasks = [];
+                                if (versions.length > 1) {
+                                    for (let i = 0; i < versions.length; i++) { //versions.length
+                                        (function(versionInfo) {
+                                            downloadVersionTasks.push(function(callback) {
+                                                _.get(id, function(songData) {
+                                                    contentVersions.push({
+                                                        content: songData.content,
+                                                        chord: songData.chord,
+                                                        description: versionInfo.description,
+                                                        star: versionInfo.star,
+                                                        votes: versionInfo.votes
+                                                    });
+                                                    callback(null, songData);
+                                                }, versionInfo.urlValue);
+                                            });
+                                        })(versions[i]);
+                                    }
+
+                                    async.parallel(downloadVersionTasks, function(err, results) {
+                                        console.log('parallel done');
+                                        resolve(contentVersions);
+                                    });
+                                } else {
+                                    resolve(null);
+                                }
+
+                            } else {
+                                resolve(null);
+                            }
                         });
+
                     }
 
-                    callback({id: id, title: title, rythm:rythm, chord: chord,singer:singer, author: author,  content: content});
+                    downloadVersion().then(function(results) {
+                        var songData = {
+                            id: id,
+                            title: title,
+                            rythm: rythm,
+                            chord: chord,
+                            singer: singer,
+                            author: author,
+                            content: content,
+                            version: results
+                        };
 
-                }catch(err){
+
+                        if (results === null) {
+                            delete songData.version;
+                            delete songData.id;
+                            delete songData.title;
+                            delete songData.rythm;
+                            delete songData.singer;
+                            delete songData.author;
+                        }
+
+                        console.log('download completed for version: ' + version);
+                        callback(songData);
+                    });
+                } catch (err) {
                     console.log('     ' + id);
                     console.log(err);
                 }
-                
             }
         });
     }
