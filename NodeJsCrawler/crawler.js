@@ -50,7 +50,7 @@ module.exports = {
                     let rythm = $('#display-rhythm').text().trim();
                     let chord = $('#song-key').text().trim();
                     let authors = $('#song-author').text().trim().split('         ').map(function(e) {
-                        return e.trim()
+                        return e.trim()  
                     }).filter(function(e) {
                         return e !== ''
                     });
@@ -67,6 +67,11 @@ module.exports = {
                         return new Promise(function(resolve, reject) {
                             if (version == undefined) {
                                 let contentVersions = [];
+                                function parseNumber(text){
+                                    if(text===null || text===undefined|| text.trim()=='') return 0;
+                                    var value = parseInt(text);
+                                    if(value==NaN) return 0; else return value;
+                                };
 
                                 let versions = [];
                                 Q = cheerio.load($('#version-select')[0].innerHTML);
@@ -75,8 +80,8 @@ module.exports = {
                                     versions.push({
                                         songId: id,
                                         description:item.attr('data-description'),
-                                        star:item.attr('data-star'),
-                                        votes: item.attr('data-votes'),
+                                        star:parseNumber(item.attr('data-star')),
+                                        votes: parseNumber(item.attr('data-votes')),
                                         urlValue: item.attr('value')
                                     });
                                 });
@@ -105,28 +110,27 @@ module.exports = {
                                         resolve(contentVersions);
                                     });
                                 } else {
-                                    resolve(null);
+                                    console.log('no version');
+                                    resolve([]);
                                 }
 
                             } else {
                                 resolve(null);
                             }
                         });
-
                     }
 
                     downloadVersion().then(function(results) {
                         var songData = {
                             id: id,
-                            title: title,
-                            rythm: rythm,
-                            chord: chord,
-                            singer: singer,
-                            author: author,
-                            content: content,
+                            title: title.trim(),
+                            rythm: rythm.trim(),
+                            chord: chord.trim(),
+                            singer: singer.trim(),
+                            author: author.trim(),
+                            content: content.trim(),
                             version: results
                         };
-
 
                         if (results === null) {
                             delete songData.version;
@@ -135,14 +139,17 @@ module.exports = {
                             delete songData.rythm;
                             delete songData.singer;
                             delete songData.author;
+                        } else if(results.length==0){
+                             delete songData.version;
                         }
 
-                        console.log('download completed for version: ' + version);
+                        console.log('download completed : ' + title + '      version: ' + version);
                         callback(songData);
                     });
                 } catch (err) {
                     console.log('     ' + id);
                     console.log(err);
+                    callback(null);
                 }
             }
         });
