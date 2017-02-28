@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ParrotApp.Views.DetailPage"
+             xmlns:local="clr-namespace:ParrotApp"
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=DetailViewModel}"
+             >
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0" />
+        </Grid.RowDefinitions>
+        <WebView/>
+    </Grid>
+
+
+</ContentPage>

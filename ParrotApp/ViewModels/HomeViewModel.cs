@@ -7,13 +7,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace ParrotApp.ViewModels
 {
     public class HomeViewModel : ViewModelBase
     {
         private DataConnection dataConnection;
-
+        private NavigationService navigationService;
         private IEnumerable<SongMetadata> allSong { get; set; }
 
         private IEnumerable<SongMetadata> _searchResults;
@@ -31,13 +32,30 @@ namespace ParrotApp.ViewModels
             }
         }
 
+        private SongMetadata _selectedSong;
+        public SongMetadata SelectedSong
+        {
+            get { return _selectedSong; }
+            set
+            {
+                _selectedSong = value;
+                RaisePropertyChanged();
+                if (_selectedSong != null)
+                {
+                    MessagingCenter.Send(this, "ViewDetail", _selectedSong);
+                    navigationService.GotoPage(NavigationService.View.DetailPage);
+                }
+            }
+        }
+
         public ICommand SearchSongCommand { get; private set; }
 
         public SongFilter SongFilter { get; } = new SongFilter();
 
-        public HomeViewModel(DataConnection dataConnection, IFileHelper fileHelper)
+        public HomeViewModel(DataConnection dataConnection, IFileHelper fileHelper, NavigationService navigationService)
         {
             this.dataConnection = dataConnection;
+            this.navigationService = navigationService;
 
             CommandRegister();
 

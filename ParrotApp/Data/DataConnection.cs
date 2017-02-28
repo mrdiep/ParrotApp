@@ -67,5 +67,10 @@ namespace ParrotApp.Data
 
             await firstSetupCompletionSource.Task;
         }
+
+        public string GetContent(int songId, int? songVersion = null)
+        {
+            return null;
+        }
     }
 }

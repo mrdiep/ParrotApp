@@ -22,6 +22,7 @@ namespace ParrotApp.ViewModels
         }
 
         public HomeViewModel HomeViewModel => Container.Get<HomeViewModel>();
+        public DetailViewModel DetailViewModel => Container.Get<DetailViewModel>();
         public DataConnection DataConnection => Container.Get<DataConnection>();
     }
 
@@ -32,6 +33,14 @@ namespace ParrotApp.ViewModels
             Kernel.Bind<HomeViewModel>()
                 .ToSelf()
                 .InSingletonScope();
+
+            Kernel.Bind<NavigationService>()
+                .ToSelf()
+                .InSingletonScope();
+
+            Kernel.Bind<DetailViewModel>()
+               .ToSelf()
+               .InSingletonScope();
 
             Kernel.Bind<DataConnection>()
                 .ToSelf()

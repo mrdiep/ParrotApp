@@ -23,8 +23,9 @@
         </StackLayout>
        
         <ListView Grid.Row="1"
-                  x:Name="listView"
+                  x:Name="listView"                  
                   CachingStrategy="RecycleElement"
+                  SelectedItem="{Binding SelectedSong, Mode=TwoWay}"
                   ItemsSource="{Binding SearchResults}">
             <ListView.ItemTemplate>
                 <DataTemplate>
