@@ -24,6 +24,11 @@ namespace ParrotApp.ViewModels
         public HomeViewModel HomeViewModel => Container.Get<HomeViewModel>();
         public DetailViewModel DetailViewModel => Container.Get<DetailViewModel>();
         public DataConnection DataConnection => Container.Get<DataConnection>();
+
+        public T Get<T>()
+        {
+            return Container.Get<T>();
+        }
     }
 
     public class MainInjectModule : NinjectModule
@@ -34,13 +39,13 @@ namespace ParrotApp.ViewModels
                 .ToSelf()
                 .InSingletonScope();
 
-            Kernel.Bind<NavigationService>()
-                .ToSelf()
-                .InSingletonScope();
-
             Kernel.Bind<DetailViewModel>()
                .ToSelf()
                .InSingletonScope();
+
+            Kernel.Bind<NavigationService>()
+                .ToSelf()
+                .InSingletonScope();
 
             Kernel.Bind<DataConnection>()
                 .ToSelf()

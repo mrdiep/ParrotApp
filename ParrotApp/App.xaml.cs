@@ -5,6 +5,7 @@ using System.Text;
 using ParrotApp.ViewModels;
 using ParrotApp.Views;
 using Xamarin.Forms;
+using ParrotApp.Helper;
 
 namespace ParrotApp
 {
@@ -16,7 +17,9 @@ namespace ParrotApp
         {
             InitializeComponent();
             App.Locator = new ServiceLocator();
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new MainPage());
+
+            App.Locator.Get<NavigationService>().Navigation = MainPage.Navigation;
         }
 
         protected override void OnStart()

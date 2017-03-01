@@ -15,12 +15,17 @@
         <Label Text="HOP AM VIET"
                VerticalTextAlignment="Center"
                HorizontalTextAlignment="Center" />
-        <StackLayout Grid.Row="2" Orientation="Horizontal">
-           
-            <Editor Text="{Binding SongFilter.Name, Mode=TwoWay}" />
-            <Button Text="Tìm"
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Entry Text="{Binding SongFilter.Name, Mode=TwoWay}" />
+            <Button Text="Tìm" Grid.Column="1"
                     Command="{Binding SearchSongCommand}"/>
-        </StackLayout>
+        </Grid>
+        
        
         <ListView Grid.Row="1"
                   x:Name="listView"                  
@@ -78,10 +83,9 @@
                                        FontSize="Small"
                                        TextColor="Gray" />
                             </StackLayout>
-                            
+
                         </Grid>
                     </ViewCell>
-
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
