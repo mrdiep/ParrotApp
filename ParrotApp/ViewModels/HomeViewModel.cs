@@ -69,8 +69,8 @@ namespace ParrotApp.ViewModels
         {
             SearchSongCommand = new RelayCommand(() =>
             {
-                SearchResults = allSong.Where(SongFilter.Filter).Take(300);
-                
+                navigationService.GotoPage(NavigationService.View.DetailPage);
+                //SearchResults = allSong.Where(SongFilter.Filter);                
             });
         }
 

@@ -57,7 +57,7 @@ namespace ParrotApp.Data
             if (!isFirstSetupCompleted)
                 throw new Exception();
 
-            return db.Query<SongMetadata>("select `id` , `title`, `chord`, `author`, `singer` from song");
+            return db.Query<SongMetadata>("select `id` , `title`, `chord`, `author`, `singer` from song limit 10");
         }
 
         internal async Task WaitFristSetupCompleted()
