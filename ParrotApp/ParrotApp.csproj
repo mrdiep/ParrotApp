@@ -41,11 +41,16 @@
     <Compile Include="Data\DataConnection.cs" />
     <Compile Include="Data\SongMetadata.cs" />
     <Compile Include="Helper\IFileHelper.cs" />
+    <Compile Include="Helper\NavigationService.cs" />
     <Compile Include="Helper\TextParser.cs" />
     <Compile Include="Libs\RelayCommand.cs" />
+    <Compile Include="ViewModels\DetailViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="Models\SongFilterViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\DetailPage.xaml.cs">
+      <DependentUpon>DetailPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -98,6 +103,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Resouces\TextFile1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\DetailPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

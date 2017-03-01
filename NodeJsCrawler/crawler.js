@@ -1,5 +1,5 @@
 var _http = require('https');
-_http.globalAgent.maxSockets = 2;
+_http.globalAgent.maxSockets = 5;
 
 var jsdom = require('jsdom');
 var fs = require('fs');

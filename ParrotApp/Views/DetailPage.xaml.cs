@@ -7,11 +7,7 @@ namespace ParrotApp.Views
         public DetailPage()
         {
             InitializeComponent();
-            listView.ItemAppearing += ListView_ItemAppearing;
         }
 
-        private void ListView_ItemAppearing(object sender, ItemVisibilityEventArgs e)
-        {
-        }
     }
 }
