@@ -16,10 +16,10 @@
                VerticalTextAlignment="Center"
                HorizontalTextAlignment="Center" />
         <Grid Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Width="Auto"/>
-            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
             <Entry Text="{Binding SongFilter.Name, Mode=TwoWay}" />
             <Button Text="Tìm" Grid.Column="1"

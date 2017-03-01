@@ -1,8 +1,19 @@
-CREATE TABLE "song" (
+CREATE TABLE "songMetadata" (
     "id" INTEGER PRIMARY KEY NOT NULL,
     "title" TEXT,
     "rhythm" TEXT,
     "chord" TEXT,
     "author" TEXT,
     "singer" TEXT
+);
+
+
+CREATE TABLE "versions" (
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "songId" INTEGER,
+    "chord" TEXT,
+    "description" TEXT,
+    "star" TEXT,
+    "votes" TEXT,
+    "defaultView" INTEGER
 );

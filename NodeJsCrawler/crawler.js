@@ -1,5 +1,5 @@
 var _http = require('https');
-_http.globalAgent.maxSockets = 5;
+_http.globalAgent.maxSockets = 15;
 
 var jsdom = require('jsdom');
 var fs = require('fs');
@@ -121,6 +121,11 @@ module.exports = {
                     }
 
                     downloadVersion().then(function(results) {
+                        if(singer==undefined)
+                         singer='';
+                         if(author==undefined)
+                         author='';
+                         
                         var songData = {
                             id: id,
                             title: title.trim(),

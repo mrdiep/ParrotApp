@@ -1,6 +1,7 @@
 var crawler = require('./crawler');
 var database = require('./database');
 var async = require('async');
+let tableName = 'lyric4';
 
 var parseToMongoDb = function() {
     var ids = [];
@@ -8,7 +9,7 @@ var parseToMongoDb = function() {
     for (var i = 1; i < 9356; i++) {
         ids.push(i);
     }
-    let tableName = 'lyric4';
+    
     database.find(tableName, {}, function(c) {
         c.each(function(err, doc) {
             if (err === null && doc !== null) {
@@ -16,7 +17,6 @@ var parseToMongoDb = function() {
             } else {
                 doParse(ids);
             }
-
         })
     });
 
@@ -46,7 +46,7 @@ var parseToMongoDb = function() {
                 });
             });
         })(ids[0]);
-
+        console.log('total='+ids.length);
         for (var i = 1; i < ids.length; i++) {
             (function(songId) {
                 taskAsync.push(function(value, callback) {
@@ -92,5 +92,5 @@ var mongoDbToSqlite = function() {
 // });
 // }
 
-database.init(parseToMongoDb);
-//database.init(mongoDbToSqlite);
+//database.init(parseToMongoDb);
+database.init(mongoDbToSqlite);

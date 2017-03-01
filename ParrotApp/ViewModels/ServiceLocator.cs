@@ -39,10 +39,6 @@ namespace ParrotApp.ViewModels
                 .ToSelf()
                 .InSingletonScope();
 
-            Kernel.Bind<NavigationService>()
-                .ToSelf()
-                .InSingletonScope();
-
             Kernel.Bind<DetailViewModel>()
                .ToSelf()
                .InSingletonScope();

@@ -16,8 +16,8 @@ namespace ParrotApp
         public App()
         {
             InitializeComponent();
-            App.Locator = new ServiceLocator();
-            MainPage = new MainPage();
+            App.Locator =  new ServiceLocator();
+            MainPage = new NavigationPage(new MainPage());
 
             App.Locator.Get<NavigationService>().Navigation = MainPage.Navigation;
         }
