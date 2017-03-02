@@ -85,12 +85,13 @@ var mongoDbToSqlite = function() {
         })
     });
 }
-// for(var i=9;i<=20;i++){
-// crawler.get(50, function(lyric) {
-//      console.log('======================');
-//      console.log(lyric);
-// });
-// }
+
+for(var i=51;i<=51;i++){
+crawler.get(i, function(lyric) {
+     console.log('======================');
+     console.log(lyric);
+});
+}
 
 //database.init(parseToMongoDb);
-database.init(mongoDbToSqlite);
+//database.init(mongoDbToSqlite);

@@ -14,6 +14,5 @@ CREATE TABLE "versions" (
     "chord" TEXT,
     "description" TEXT,
     "star" TEXT,
-    "votes" TEXT,
-    "defaultView" INTEGER
+    "votes" TEXT
 );

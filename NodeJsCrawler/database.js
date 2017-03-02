@@ -51,7 +51,7 @@ var database = {
         return this;
     },
     find : function(table, whereClause, results) {
-        results(_db.collection(table).find(whereClause));
+        results(_db.collection(table).find(whereClause).limit( 5 ));
     },
     
     update: function(table, where, data) {

@@ -1,5 +1,5 @@
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('./hopam4.db3');
+var db = new sqlite3.Database('./hopam5.db3');
 var fs = require('fs');
 module.exports = {
     addData: function(songData) {
@@ -43,26 +43,26 @@ module.exports = {
             }
 
             var addSongVersions = function() {
-                let stmt = db.prepare('INSERT INTO "versions"("songId", "chord", "content", "description", "star", "votes","defaultView") VALUES (?,?,?,?,?,?);');
+                let stmt = db.prepare('INSERT INTO "versions"("songId", "chord", "content", "description", "star", "votes") VALUES (?,?,?,?,?);');
                 for (let i = 0; i < songData.length; i++) {
                     let song = songData[i];
                     var versions = songData[i].version;
-                    var defaultContent = [{content:song.content, chord: song.chord, aaaaaaaaaaaaaa}];
+                    var defaultContent = [{content:song.content, chord: song.chord, description:'',star:'', votes:-1}];
                     versions = squash(defaultContent.concat(versions));
 
                     for(var versionIndex = 0; versionIndex<versions.length;versionIndex++){
                         var version = versions[versionIndex];
-
                         console.log("add version for " + song.id);
-
+                        if(version===undefined){
+                            continue;
+                        }
                         stmt.run(
                             createVersionId(song.id, versionIndex),
                             version.chord,
                             version.content,
                             version.description,
                             version.star,
-                            version.votes,
-                            versionIndex===0
+                            version.votes
                         );
                     }
 

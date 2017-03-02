@@ -7,6 +7,14 @@ var jquery = fs.readFileSync("./libs/jquery.js", "utf-8");
 let cheerio = require('cheerio')
 let async = require('async');
 
+                                function parseNumber(text){
+                                    if(text===null || text===undefined|| text.trim()=='') return 0;
+                                    var value = parseInt(text);
+                                    if(value===NaN) 
+                                    return 0;
+                                     else 
+                                     return value;
+                                };
 module.exports = {
     get: function(id, callback, version) {
         let _ = this;
@@ -49,13 +57,11 @@ module.exports = {
                     let title = $('#song-title').text().trim();
                     let rythm = $('#display-rhythm').text().trim();
                     let chord = $('#song-key').text().trim();
-                    let authors = $('#song-author').text().trim().split('         ').map(function(e) {
-                        return e.trim()  
-                    }).filter(function(e) {
-                        return e !== ''
-                    });
-                    let singer = authors[0];
-                    let author = authors[1];
+                    let singer = $('#song-author .author-item:first').text();
+                    let author = $('#song-author .author-item:last').text();
+                    let star = parseNumber($('#contribute-rating-control').attr('data-stars'));
+                    let votes = parseNumber($('.contribute-rate-desc').text().trim().replace('(','').replace(')',''));
+                    let updated = $('#song-date-time').text().trim().split('\n')[0].replace('Cập nhật ngày ','').replace(' tháng ','-').replace(', ','-');
 
                     let Q = cheerio.load($('#song-lyric')[0].innerHTML);
                     let content = '';
@@ -67,37 +73,35 @@ module.exports = {
                         return new Promise(function(resolve, reject) {
                             if (version == undefined) {
                                 let contentVersions = [];
-                                function parseNumber(text){
-                                    if(text===null || text===undefined|| text.trim()=='') return 0;
-                                    var value = parseInt(text);
-                                    if(value==NaN) return 0; else return value;
-                                };
-
                                 let versions = [];
                                 Q = cheerio.load($('#version-select')[0].innerHTML);
                                 Q('option').each(function(d, i) {
                                     let item = Q(this);
                                     versions.push({
                                         songId: id,
+                                        versionId:id+"000".substring(0, 3- ((d+1)+'').length) + (d+1),
                                         description:item.attr('data-description'),
-                                        star:parseNumber(item.attr('data-star')),
-                                        votes: parseNumber(item.attr('data-votes')),
+                                        //star:parseNumber(item.attr('data-star')),
+                                        //votes: parseNumber(item.attr('data-votes')),
                                         urlValue: item.attr('value')
                                     });
                                 });
 
                                 let downloadVersionTasks = [];
                                 if (versions.length > 1) {
-                                    for (let i = 0; i < versions.length; i++) { //versions.length
+                                    for (let i = 0; i < versions.length; i++) {
                                         (function(versionInfo) {
                                             downloadVersionTasks.push(function(callback) {
                                                 _.get(id, function(songData) {
                                                     contentVersions.push({
                                                         content: songData.content,
                                                         chord: songData.chord,
-                                                        description: versionInfo.description,
-                                                        star: versionInfo.star,
-                                                        votes: versionInfo.votes
+                                                        description: songData.description,
+                                                        star: songData.star,
+                                                        votes: songData.votes,
+                                                        updated:songData.updated,
+                                                        urlValue:versionInfo.urlValue,
+                                                        versionId : versionInfo.versionId
                                                     });
                                                     callback(null, songData);
                                                 }, versionInfo.urlValue);
@@ -107,24 +111,24 @@ module.exports = {
 
                                     async.parallel(downloadVersionTasks, function(err, results) {
                                         console.log('parallel done');
-                                        resolve(contentVersions);
+                                        resolve({type: 'success', versions: contentVersions});
                                     });
                                 } else {
                                     console.log('no version');
-                                    resolve([]);
+                                    resolve({type:'no-version'});
                                 }
 
                             } else {
-                                resolve(null);
+                                resolve({type:'no-resolve'});
                             }
                         });
                     }
 
                     downloadVersion().then(function(results) {
                         if(singer==undefined)
-                         singer='';
+                            singer='';
                          if(author==undefined)
-                         author='';
+                            author='';
                          
                         var songData = {
                             id: id,
@@ -134,18 +138,49 @@ module.exports = {
                             singer: singer.trim(),
                             author: author.trim(),
                             content: content.trim(),
-                            version: results
+                            description:content.trim(),
+                            description: content.trim().substring(0,50).replace('\n',' ').replace('\r',' '),
+                            votes:votes,
+                            star:star,
+                            updated:updated,
                         };
 
-                        if (results === null) {
+                        function getDefaultSongVersion(){
+                            return [{
+                                    chord: chord.trim(),
+                                    content: content.trim(),
+                                    description: content.trim().substring(0,50).replace('\n',' ').replace('\r',' '),
+                                    star: star,
+                                    votes: votes,
+                                    updated:updated,
+                                    urlValue:'',
+                                    versionId:id+'000'
+                             }];
+                        }
+                        if (results.type === 'no-resolve') {
                             delete songData.version;
                             delete songData.id;
                             delete songData.title;
                             delete songData.rythm;
                             delete songData.singer;
                             delete songData.author;
-                        } else if(results.length==0){
-                             delete songData.version;
+
+                        } else if(results.type=='no-version'){
+                            delete songData.content;
+                            delete songData.star;
+                            delete songData.votes;
+                            delete songData.description;
+                            delete songData.updated;
+
+                             songData.version = getDefaultSongVersion();
+                        } else if(results.type=='success'){
+                            delete songData.content;
+                            delete songData.star;
+                            delete songData.votes;
+                            delete songData.description;
+                            delete songData.updated;
+
+                            songData.version = getDefaultSongVersion().concat(results.versions);
                         }
 
                         console.log('download completed : ' + title + '      version: ' + version);
