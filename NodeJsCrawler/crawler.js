@@ -60,9 +60,9 @@ module.exports = {
                     let singer = $('#song-author .author-item:first').text();
                     let author = $('#song-author .author-item:last').text();
                     let star = parseNumber($('#contribute-rating-control').attr('data-stars'));
-                    let votes = parseNumber($('.contribute-rate-desc').text().trim().replace('(','').replace(')',''));
+                    let votes = parseNumber($('.contribute-rate-desc').text().trim().replace(' người bình chọn',''));
                     let updated = $('#song-date-time').text().trim().split('\n')[0].replace('Cập nhật ngày ','').replace(' tháng ','-').replace(', ','-');
-                    let postUser = $('.song-poster-username').text().trim();
+                    let postUser =$('.song-poster-username a').attr('href').split('/')[5];
 
                     let Q = cheerio.load($('#song-lyric')[0].innerHTML);
                     let content = '';
@@ -76,7 +76,7 @@ module.exports = {
                                 let contentVersions = [];
                                 let versions = [];
                                 Q = cheerio.load($('#version-list')[0].innerHTML);
-                                Q('#other-versions .small-avatar').each(function(d, i) {
+                                Q('#other-versions .version-link').each(function(d, i) {
                                     let item = Q(this);
                                     versions.push({
                                         songId: id,
@@ -84,7 +84,8 @@ module.exports = {
                                         //description:item.attr('data-description'),
                                         //star:parseNumber(item.attr('data-star')),
                                         //votes: parseNumber(item.attr('data-votes')),
-                                        urlValue: item.attr('value')
+                                        postUser: item.attr('href').split('/')[6],
+                                        url:item.attr('href')
                                     });
                                 });
 
@@ -101,11 +102,12 @@ module.exports = {
                                                         star: songData.star,
                                                         votes: songData.votes,
                                                         updated:songData.updated,
-                                                        urlValue:versionInfo.urlValue,
-                                                        versionId : versionInfo.versionId
+                                                        postUser:versionInfo.postUser,
+                                                        versionId : versionInfo.versionId,
+                                                        url:versionInfo.url
                                                     });
                                                     callback(null, songData);
-                                                }, versionInfo.urlValue);
+                                                }, versionInfo.postUser);
                                             });
                                         })(versions[i]);
                                     }
@@ -154,14 +156,14 @@ module.exports = {
                                     star: star,
                                     votes: votes,
                                     updated:updated,
-                                    urlValue:'',
+                                    postUser:postUser,
                                     versionId:id+'000',
                                     default:true
                              }];
                         }
                         function updateVersionDefault(){
                             for(var i=0;i<results.versions.length;i++){
-                                if(results.versions[i].urlValue===postUser){
+                                if(results.versions[i].postUser===postUser){
                                     results.versions[i].default = true;
                                 }
                                 else {
