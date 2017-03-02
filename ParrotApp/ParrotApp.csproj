@@ -39,14 +39,15 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\DataConnection.cs" />
-    <Compile Include="Data\SongMetadata.cs" />
+    <Compile Include="Models\SongFilter.cs" />
+    <Compile Include="Models\SongVersion.cs" />
+    <Compile Include="Models\SongMetadata.cs" />
     <Compile Include="Helper\IFileHelper.cs" />
     <Compile Include="Helper\NavigationService.cs" />
     <Compile Include="Helper\TextParser.cs" />
     <Compile Include="Libs\RelayCommand.cs" />
     <Compile Include="ViewModels\DetailViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
-    <Compile Include="Models\SongFilterViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\DetailPage.xaml.cs">
       <DependentUpon>DetailPage.xaml</DependentUpon>

@@ -1,4 +1,5 @@
 ﻿using ParrotApp.Helper;
+using ParrotApp.Models;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace ParrotApp.Data
 {
     public class DataConnection
     {
-        private const string FileName = "hopam1243.db3";
+        private const string FileName = "hopam_test2.db3";
         private SQLiteConnection db;
         private IFileHelper _fileHelper;
         private bool isFirstSetupCompleted = false;
@@ -57,7 +58,7 @@ namespace ParrotApp.Data
             if (!isFirstSetupCompleted)
                 throw new Exception();
 
-            return db.Query<SongMetadata>("select `id` , `title`, `chord`, `author`, `singer` from song limit 10");
+            return db.Query<SongMetadata>("select `id` , `title`, `chord`, `author`, `singer` from songmetadata");
         }
 
         internal async Task WaitFristSetupCompleted()
@@ -68,9 +69,12 @@ namespace ParrotApp.Data
             await firstSetupCompletionSource.Task;
         }
 
-        public string GetContent(int songId, int? songVersion = null)
+        public SongVersion GetContent(int songVersionId)
         {
-            return null;
+
+            var version = db.FindWithQuery<SongVersion>("select * from versions where id="+songVersionId);
+
+            return version;
         }
     }
 }

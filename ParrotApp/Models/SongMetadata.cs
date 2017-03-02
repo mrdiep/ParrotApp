@@ -1,24 +1,19 @@
 ﻿using SQLite;
 
-namespace ParrotApp.Data
+namespace ParrotApp.Models
 {
     public class SongMetadata
     {
-        [Column("id")]
+
         public int Id { get; set; }
 
-        [Column("title")]
         public string Title { get; set; }
 
-        [Column("chord")]
         public string Chord { get; set; }
 
-        [Column("rhythm")]
         public string Rhythm { get; set; }
 
         private string author;
-
-        [Column("author")]
         public string Author
         {
             get
@@ -32,8 +27,6 @@ namespace ParrotApp.Data
         }
 
         private string singer;
-
-        [Column("singer")]
         public string Singer
         {
             get

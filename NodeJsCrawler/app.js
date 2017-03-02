@@ -1,7 +1,7 @@
 var crawler = require('./crawler');
 var database = require('./database');
 var async = require('async');
-let tableName = 'lyric6';
+let tableName = 'lyric7';
 
 var parseToMongoDb = function() {
     var ids = [];
@@ -60,20 +60,13 @@ var parseToMongoDb = function() {
     }
 
     database.find(tableName, {}, function(c) {
-        var hasData = false;
         c.each(function(err, doc) {
-            if (err === null) {
-                if (doc !== null) {
+            if (err === null && doc !== null) {
                     ids.splice(ids.indexOf(doc.id), 1);
-                    hasData = true;
-                }
             } else {
                 doParse(ids);
             }
         });
-        // if (!hasData) {
-        //     doParse(ids);
-        // }
     });
 };
 

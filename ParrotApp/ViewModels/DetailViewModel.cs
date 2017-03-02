@@ -1,4 +1,5 @@
 ﻿using ParrotApp.Data;
+using ParrotApp.Models;
 using Xamarin.Forms;
 
 namespace ParrotApp.ViewModels
@@ -20,7 +21,7 @@ namespace ParrotApp.ViewModels
 
         private void UpdateDetailView()
         {
-            var htmlContent = dataConnection.GetContent(SongMetadata.Id);
+            var htmlContent = dataConnection.GetContent((SongMetadata.Id * 1000 )+ 1);
         }
     }
 }

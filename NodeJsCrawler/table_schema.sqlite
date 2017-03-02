@@ -9,10 +9,13 @@ CREATE TABLE "songMetadata" (
 
 
 CREATE TABLE "versions" (
-    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "id" INTEGER PRIMARY KEY,
     "songId" INTEGER,
     "chord" TEXT,
+    "content" TEXT,
     "description" TEXT,
     "star" TEXT,
-    "votes" TEXT
+    "votes" TEXT,
+    "updated" TEXT,
+    "default" INTEGER    
 );

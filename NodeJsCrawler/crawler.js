@@ -75,13 +75,13 @@ module.exports = {
                             if (version == undefined) {
                                 let contentVersions = [];
                                 let versions = [];
-                                Q = cheerio.load($('#version-select')[0].innerHTML);
-                                Q('option').each(function(d, i) {
+                                Q = cheerio.load($('#version-list')[0].innerHTML);
+                                Q('#other-versions .small-avatar').each(function(d, i) {
                                     let item = Q(this);
                                     versions.push({
                                         songId: id,
                                         versionId:id+"000".substring(0, 3- ((d+1)+'').length) + (d+1),
-                                        description:item.attr('data-description'),
+                                        //description:item.attr('data-description'),
                                         //star:parseNumber(item.attr('data-star')),
                                         //votes: parseNumber(item.attr('data-votes')),
                                         urlValue: item.attr('value')

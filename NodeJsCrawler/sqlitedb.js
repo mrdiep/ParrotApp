@@ -27,10 +27,6 @@ module.exports = {
                 stmt.finalize();
                 console.log('done added data');
             }
-            function createVersionId(songId, currentVersionId){
-                var currentVersionIdLength = (currentVersionId+'').length;
-                return parseInt(songId + ("000".substring(0,3-currentVersionIdLength))+currentVersionId);
-            }
 
             function squash(arr){
                 var tmp = [];
@@ -43,29 +39,29 @@ module.exports = {
             }
 
             var addSongVersions = function() {
-                let stmt = db.prepare('INSERT INTO "versions"("songId", "chord", "content", "description", "star", "votes") VALUES (?,?,?,?,?);');
+                let stmt = db.prepare('INSERT INTO "versions"("id","songId", "chord", "content", "description", "star", "votes","updated","default") VALUES (?,?,?,?,?,?,?,?,?);');
                 for (let i = 0; i < songData.length; i++) {
                     let song = songData[i];
                     var versions = songData[i].version;
-                    var defaultContent = [{content:song.content, chord: song.chord, description:'',star:'', votes:-1}];
-                    versions = squash(defaultContent.concat(versions));
 
                     for(var versionIndex = 0; versionIndex<versions.length;versionIndex++){
                         var version = versions[versionIndex];
                         console.log("add version for " + song.id);
-                        if(version===undefined){
+                        if(version === undefined)
                             continue;
-                        }
+
                         stmt.run(
-                            createVersionId(song.id, versionIndex),
+                            version.versionId,
+                            song.id,
                             version.chord,
                             version.content,
                             version.description,
                             version.star,
-                            version.votes
+                            version.votes,
+                            version.updated,
+                            version.default
                         );
                     }
-
                 }
                 stmt.finalize();
                 console.log('done added data');
