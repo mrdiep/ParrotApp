@@ -62,6 +62,7 @@ module.exports = {
                     let star = parseNumber($('#contribute-rating-control').attr('data-stars'));
                     let votes = parseNumber($('.contribute-rate-desc').text().trim().replace('(','').replace(')',''));
                     let updated = $('#song-date-time').text().trim().split('\n')[0].replace('Cập nhật ngày ','').replace(' tháng ','-').replace(', ','-');
+                    let postUser = $('.song-poster-username').text().trim();
 
                     let Q = cheerio.load($('#song-lyric')[0].innerHTML);
                     let content = '';
@@ -154,8 +155,22 @@ module.exports = {
                                     votes: votes,
                                     updated:updated,
                                     urlValue:'',
-                                    versionId:id+'000'
+                                    versionId:id+'000',
+                                    default:true
                              }];
+                        }
+                        function updateVersionDefault(){
+                            for(var i=0;i<results.versions.length;i++){
+                                if(results.versions[i].urlValue===postUser){
+                                    results.versions[i].default = true;
+                                }
+                                else {
+                                    results.versions[i].default = false;
+                                }
+                            }
+
+                            return results.versions;
+
                         }
                         if (results.type === 'no-resolve') {
                             delete songData.version;
@@ -180,7 +195,9 @@ module.exports = {
                             delete songData.description;
                             delete songData.updated;
 
-                            songData.version = getDefaultSongVersion().concat(results.versions);
+                            //removeVersionHasContent(content);
+
+                            songData.version = updateVersionDefault();
                         }
 
                         console.log('download completed : ' + title + '      version: ' + version);
