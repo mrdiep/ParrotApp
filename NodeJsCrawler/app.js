@@ -1,7 +1,7 @@
 var crawler = require('./crawler');
 var database = require('./database');
 var async = require('async');
-let tableName = 'lyric4';
+let tableName = 'lyric6';
 
 var parseToMongoDb = function() {
     var ids = [];
@@ -9,16 +9,6 @@ var parseToMongoDb = function() {
     for (var i = 1; i < 9356; i++) {
         ids.push(i);
     }
-    
-    database.find(tableName, {}, function(c) {
-        c.each(function(err, doc) {
-            if (err === null && doc !== null) {
-                ids.splice(ids.indexOf(doc.id), 1);
-            } else {
-                doParse(ids);
-            }
-        })
-    });
 
     var doParse = function(ids) {
         if (ids.length == 0) {
@@ -46,7 +36,7 @@ var parseToMongoDb = function() {
                 });
             });
         })(ids[0]);
-        console.log('total='+ids.length);
+        console.log('total=' + ids.length);
         for (var i = 1; i < ids.length; i++) {
             (function(songId) {
                 taskAsync.push(function(value, callback) {
@@ -68,6 +58,23 @@ var parseToMongoDb = function() {
         }, 2000);
 
     }
+
+    database.find(tableName, {}, function(c) {
+        var hasData = false;
+        c.each(function(err, doc) {
+            if (err === null) {
+                if (doc !== null) {
+                    ids.splice(ids.indexOf(doc.id), 1);
+                    hasData = true;
+                }
+            } else {
+                doParse(ids);
+            }
+        });
+        // if (!hasData) {
+        //     doParse(ids);
+        // }
+    });
 };
 
 
@@ -86,12 +93,12 @@ var mongoDbToSqlite = function() {
     });
 }
 
-for(var i=51;i<=51;i++){
-crawler.get(i, function(lyric) {
-     console.log('======================');
-     console.log(lyric);
-});
-}
+// for(var i=51;i<=51;i++){
+// crawler.get(i, function(lyric) {
+//      console.log('======================');
+//      console.log(lyric);
+// });
+// }
 
-//database.init(parseToMongoDb);
+database.init(parseToMongoDb);
 //database.init(mongoDbToSqlite);
