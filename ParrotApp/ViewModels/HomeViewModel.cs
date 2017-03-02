@@ -3,7 +3,6 @@ using ParrotApp.Helper;
 using ParrotApp.Libs;
 using ParrotApp.Models;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,6 +14,7 @@ namespace ParrotApp.ViewModels
     {
         private DataConnection dataConnection;
         private NavigationService navigationService;
+
         private IEnumerable<SongMetadata> allSong { get; set; }
 
         private IEnumerable<SongMetadata> _searchResults;

@@ -11,7 +11,7 @@ namespace ParrotApp.Data
 {
     public class DataConnection
     {
-        private const string FileName = "hopam_test2.db3";
+        private const string FileName = "hopam_test3.db3";
         private SQLiteConnection db;
         private IFileHelper _fileHelper;
         private bool isFirstSetupCompleted = false;
@@ -43,11 +43,11 @@ namespace ParrotApp.Data
                 return;
             }
 
-            
-            var assembly = typeof(DataConnection).GetTypeInfo().Assembly;
+            using (var stream = ResourceFileHelper.GetStream("hopam.db3"))
+            {
+                _fileHelper.WriteStreamToLocalFile(stream, FileName);
+            }
 
-            Stream stream = assembly.GetManifestResourceStream("ParrotApp.Resouces.hopam.db3");
-            _fileHelper.WriteStreamToLocalFile(stream, FileName);
             isFirstSetupCompleted = true;
             SetupConnection();
             firstSetupCompletionSource.SetResult(true);
@@ -69,10 +69,19 @@ namespace ParrotApp.Data
             await firstSetupCompletionSource.Task;
         }
 
-        public SongVersion GetContent(int songVersionId)
+        public SongVersion GetContent(int songId, int? songVersionId = null)
         {
-
-            var version = db.FindWithQuery<SongVersion>("select * from versions where id="+songVersionId);
+            SongVersion version;
+            string query;
+            if (songVersionId == null)
+            {
+                query = " where songid=" + songId + " and `default`=1";
+            }
+            else
+            {
+                query = " where id=" + songVersionId;
+            }
+            version = db.FindWithQuery<SongVersion>("select * from versions" + query);
 
             return version;
         }

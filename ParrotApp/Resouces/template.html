@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+</head>
+
+<body>
+    <style>
+        article, details, section {
+            display: block;
+        }
+        .dn,print-visible {
+            display:none;
+        }
+        h1 {
+            font-size: 17px;
+        }
+
+        pre {
+            margin-left: 7px;
+            margin-top: -5px;
+        }
+
+        #song_title {
+            margin-left: 25px;
+            color: #69c;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            font-family: Arial;
+            color: #333;
+            /*background-color: #f5f6f4;*/
+        }
+
+        article {
+            min-height: 100%;
+            position: relative;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            z-index: 1;
+            padding-bottom: 0px;
+        }
+
+        .hopamchuan_chord {
+            color: #69c;
+            font-weight: bold;
+        }
+    </style>
+    <script type="text/javascript">
+
+        var fontSize = ____FONTSIZE___;
+        var scrollValue = 2;
+        var scrolldelay;
+        var isScroll = false;
+
+        function transposeChord(chord, amount) {
+            if (typeof chord == 'undefined') {
+                return;
+            }
+            if (chord == "") {
+                return;
+            }
+            chord = chord.toLowerCase();
+            chord = chord.replace(/\/./, function (char) {
+                return char.toUpperCase();
+            });
+            chord = chord.replace(/^./, function (char) {
+                return char.toUpperCase();
+            });
+            var sameScale = ["Db", "C#", "Eb", "D#", "Gb", "F#", "Ab", "G#", "Bb", "A#"];
+            var scale = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+            chord = chord.replace(/[DEGAB]b/, function (match) {
+                return sameScale[(sameScale.indexOf(match) + 1)];
+            });
+            var returnVal = chord.replace(/[CDEFGAB]#?/g,
+                                 function (match) {
+                                     var i = (scale.indexOf(match) + amount) % scale.length;
+                                     return scale[i < 0 ? i + scale.length : i];
+                                 });
+
+            returnVal = returnVal.replace(/^A#/, 'Bb').replace(/^D#/, 'Eb');
+            return returnVal;
+
+        }
+
+        function fontUp() {
+            document.getElementById("song_text").style.fontSize = (++fontSize) + "px";
+        }
+
+        function fontDown() {
+            document.getElementById("song_text").style.fontSize = (--fontSize) + "px";
+        }
+
+        function doTone(element, isUp) {
+            if (isUp) {
+                element.innerHTML = transposeChord(element.innerHTML, 1);
+            }
+            else {
+                element.innerHTML = transposeChord(element.innerHTML, -1);
+            }
+        }
+
+        function setScrollValue(value) {
+            scrollValue = value;
+            stopScroll();
+            if (value > 0) {
+                startScroll();
+            }
+        }
+
+        function toggleScroll() {
+            if (isScroll) {
+                stopScroll();
+            }
+            else {
+                startScroll();
+            }
+        }
+       
+        function stopScroll() {
+            clearTimeout(scrolldelay);
+            isScroll = false;
+        }
+
+        function startScroll() {
+            if (scrollValue > 0) {
+                isScroll = true;
+                window.scrollBy(0, 1);
+                clearTimeout(scrolldelay);
+                scrolldelay = setTimeout('startScroll()', 500 / scrollValue);
+            }
+        }
+
+        function changeTone(isUp) {
+            if (isUp == "up") {
+                isUp = true;
+            }
+            else {
+                isUp = false;
+            }
+            var x = document.getElementsByClassName("hopamchuan_chord");
+            for (i = 0; i < x.length; i++) {
+                doTone(x[i], isUp);
+            }
+        }
+
+    </script>
+
+    <article>
+        <section id="main_section">
+            <!--<div>
+                <h1 id="song_title">____TITLE___</h1>
+            </div>-->
+            <div id="song_text" style="font-size: ____FONTSIZE___px;">
+                ____CONTENT___
+            </div>
+        </section>
+
+
+    </article>
+</body>
+</html>

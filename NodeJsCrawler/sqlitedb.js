@@ -1,5 +1,5 @@
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('./hopam5.db3');
+var db = new sqlite3.Database('./hopam7.db3');
 var fs = require('fs');
 module.exports = {
     addData: function(songData) {

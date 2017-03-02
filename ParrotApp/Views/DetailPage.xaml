@@ -12,7 +12,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="0" />
         </Grid.RowDefinitions>
-        <WebView x:Name="webBroswer"/>
+        <WebView x:Name="webBroswer" Source="{Binding HtmlSource}"/>
     </Grid>
 
 
