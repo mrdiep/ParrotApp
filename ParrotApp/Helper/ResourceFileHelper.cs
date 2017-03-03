@@ -31,10 +31,12 @@ namespace ParrotApp.Helper
 
         public ImageSource SingerIcon { get; }
         public ImageSource AuthorIcon { get; }
+        public ImageSource ChordIcon { get; }
         public ResourceFileHelper()
         {
             SingerIcon = GetImageSource("icon_microphone.png");
             AuthorIcon = GetImageSource("icon_pen.png");
+            ChordIcon = GetImageSource("icon_chord.png");
         }
     }
 }

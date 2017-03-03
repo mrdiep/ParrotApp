@@ -101,6 +101,7 @@
     <EmbeddedResource Include="Resouces\hopam.db3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Include="Resouces\all_data.zip" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resouces\TextFile1.txt">
@@ -125,6 +126,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Resouces\icon_microphone.png" />
     <EmbeddedResource Include="Resouces\icon_pen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resouces\icon_chord.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.2.3.3.193\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
