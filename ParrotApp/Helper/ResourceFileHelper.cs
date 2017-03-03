@@ -1,18 +1,19 @@
 ﻿using System.IO;
 using System.Reflection;
+using Xamarin.Forms;
 
 namespace ParrotApp.Helper
 {
-    internal static class ResourceFileHelper
+    public class ResourceFileHelper
     {
-        public static Stream GetStream(string fileName)
+        internal static Stream GetStream(string fileName)
         {
             var assembly = typeof(ResourceFileHelper).GetTypeInfo().Assembly;
 
             return assembly.GetManifestResourceStream("ParrotApp.Resouces." + fileName);
         }
 
-        public static string GetString(string fileName)
+        internal static string GetString(string fileName)
         {
             using (var stream = GetStream(fileName))
             {
@@ -21,6 +22,19 @@ namespace ParrotApp.Helper
                     return reader.ReadToEnd();
                 }
             }
+        }
+
+        internal static ImageSource GetImageSource(string fileName)
+        {
+            return ImageSource.FromStream(() => GetStream(fileName));
+        }
+
+        public ImageSource SingerIcon { get; }
+        public ImageSource AuthorIcon { get; }
+        public ResourceFileHelper()
+        {
+            SingerIcon = GetImageSource("icon_microphone.png");
+            AuthorIcon = GetImageSource("icon_pen.png");
         }
     }
 }

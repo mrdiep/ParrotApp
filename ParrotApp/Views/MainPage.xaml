@@ -44,28 +44,27 @@
                                    Margin="5,3,3,3"
                                    FontSize="Medium" />
                             <StackLayout Orientation="Horizontal" Grid.Row="1">
-                                <Label Text="Tác giả:"
+                                <Image Source="{Binding Source={x:Static local:App.Locator}, Path=Resources.AuthorIcon}"
                                        Grid.Row="1"
-                                       Margin="10,0,3,3"
-                                       FontSize="Small"
-                                       TextColor="Gray" />
+                                    WidthRequest="22" HeightRequest="22"
+                                       Margin="10,0,2,3" />
 
                                 <Label Text="{Binding Author}"
                                        Grid.Row="1"
-                                       Margin="10,0,20,3"
+                                       Margin="0,0,20,3"
                                        FontSize="Small"
                                        FontAttributes="Italic"
                                        TextColor="Gray" />
 
-                                <Label Text="Ca sĩ:"
+                                <Image Source="{Binding Source={x:Static local:App.Locator}, Path=Resources.SingerIcon}"
                                        Grid.Row="1"
-                                       Margin="10,0,3,3"
-                                       FontSize="Small"
-                                       TextColor="Gray" />
+                                       WidthRequest="22"
+                                       HeightRequest="22"
+                                       Margin="10,0,2,3" />
 
                                 <Label Text="{Binding Singer}"
                                        Grid.Row="1"
-                                       Margin="10,0,3,3"
+                                       Margin="0,0,3,3"
                                        FontAttributes="Italic"
                                        FontSize="Small"
                                        TextColor="Gray" />
