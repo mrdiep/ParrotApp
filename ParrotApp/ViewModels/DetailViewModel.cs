@@ -5,18 +5,43 @@ using Xamarin.Forms;
 
 namespace ParrotApp.ViewModels
 {
-    public class DetailViewModel :ViewModelBase
+    public class DetailViewModel : ViewModelBase
     {
         private DataConnection dataConnection;
 
-        SongMetadata _songMetadata;
-        public SongMetadata SongMetadata { get { return _songMetadata; } set { _songMetadata = value; RaisePropertyChanged(); } }
+        private SongMetadata _songMetadata;
 
-        HtmlWebViewSource _htmlSource;
-        public HtmlWebViewSource HtmlSource { get { return _htmlSource; } set { _htmlSource = value; RaisePropertyChanged(); } }
+        public SongMetadata SongMetadata
+        {
+            get
+            {
+                return _songMetadata;
+            }
+            set
+            {
+                _songMetadata = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private HtmlWebViewSource _htmlSource;
+
+        public HtmlWebViewSource HtmlSource
+        {
+            get
+            {
+                return _htmlSource;
+            }
+            set
+            {
+                _htmlSource = value;
+                RaisePropertyChanged();
+            }
+        }
 
         private string htmlContent;
         public string HtmlTemplateContent => htmlContent;
+
         public DetailViewModel(DataConnection dataConnection)
         {
             this.dataConnection = dataConnection;
@@ -24,22 +49,24 @@ namespace ParrotApp.ViewModels
             MessagingCenter.Subscribe<HomeViewModel, SongMetadata>(this, "ViewDetail", (sender, song) =>
             {
                 SongMetadata = song;
-                UpdateDetailView();
+                UpdateDetailView(SongMetadata.Id);
             });
         }
 
-        private void UpdateDetailView()
+        public void UpdateDetailView(int songId, int?versionId=null)
         {
-            var song = dataConnection.GetContent(SongMetadata.Id);
+            var song = dataConnection.GetContent(songId);
             var contents = HtmlTemplateContent;
             var htmlSource = new HtmlWebViewSource();
 
             contents = contents.Replace("____FONTSIZE___", "20");
             contents = contents.Replace("____TITLE___", SongMetadata.Title);
-            contents = contents.Replace("____CONTENT___", TextParser.GetHtmlMarkup( song.Content));
+            contents = contents.Replace("____CONTENT___", TextParser.GetHtmlMarkup(song.Content));
             htmlSource.Html = contents;
 
             HtmlSource = htmlSource;
+
+            MessagingCenter.Send(this, "UpdateHtmlSource", HtmlSource);
         }
     }
 }

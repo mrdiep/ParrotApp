@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using Ninject;
+using ParrotApp.ViewModels;
+using Xamarin.Forms;
 
 namespace ParrotApp.Views
 {
@@ -8,6 +10,5 @@ namespace ParrotApp.Views
         {
             InitializeComponent();
         }
-
     }
 }

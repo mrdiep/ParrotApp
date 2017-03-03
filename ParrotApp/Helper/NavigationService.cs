@@ -1,9 +1,4 @@
 ﻿using ParrotApp.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace ParrotApp.Helper
@@ -11,13 +6,14 @@ namespace ParrotApp.Helper
     public class NavigationService
     {
         public INavigation Navigation { get; internal set; }
+
         public enum View
         {
             HomePage,
             DetailPage,
         }
 
-        View currentView;
+        private View currentView;
 
         internal void GotoPage(View view)
         {

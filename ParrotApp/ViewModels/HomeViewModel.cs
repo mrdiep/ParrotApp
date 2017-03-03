@@ -1,4 +1,5 @@
-﻿using ParrotApp.Data;
+﻿using Ninject;
+using ParrotApp.Data;
 using ParrotApp.Helper;
 using ParrotApp.Libs;
 using ParrotApp.Models;
@@ -47,6 +48,8 @@ namespace ParrotApp.ViewModels
                 }
             }
         }
+        [Inject]
+        public DetailViewModel DetailViewModel { get; set; }
 
         public ICommand SearchSongCommand { get; private set; }
 

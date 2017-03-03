@@ -93,5 +93,5 @@ var mongoDbToSqlite = function() {
 // });
 // }
 
-database.init(parseToMongoDb);
-//database.init(mongoDbToSqlite);
+//database.init(parseToMongoDb);
+database.init(mongoDbToSqlite);

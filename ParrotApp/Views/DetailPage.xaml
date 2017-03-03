@@ -3,17 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ParrotApp.Views.DetailPage"
              xmlns:local="clr-namespace:ParrotApp"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=DetailViewModel}"
-             >
-
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="0" />
-        </Grid.RowDefinitions>
-        <WebView x:Name="webBroswer" Source="{Binding HtmlSource}"/>
-    </Grid>
-
-
+             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=DetailViewModel}">
+    <ContentPage.Content>
+        <Grid>
+            <WebView  HeightRequest="1000"
+                     Source="{Binding HtmlSource}"
+                     WidthRequest="1000" />
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>
