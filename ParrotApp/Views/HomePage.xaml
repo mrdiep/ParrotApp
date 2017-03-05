@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<t:MenuContainerPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:t="clr-namespace:SlideOverKit"
+                 xmlns:local="clr-namespace:ParrotApp"
+                 BindingContext="{Binding Source={x:Static local:App.Locator}, Path=HomeViewModel}"
+                 xmlns:views="clr-namespace:ParrotApp.Views"
+                 x:Class="ParrotApp.Views.HomePage">
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="50" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid BackgroundColor="Orange" IsVisible="{Binding IsSearchVisible, Converter={StaticResource InverseBool}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+        <ColumnDefinition  Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Button Text="MENU"
+              x:Name="menuButton" />
+      <Label Text="HỢP ÂM VIỆT"
+             Grid.Column="1"
+             FontSize="Medium"
+             VerticalTextAlignment="Center"
+             HorizontalTextAlignment="Start" />
+      <Button Grid.Column="2"
+              Text="TÌM"
+              Image="Resources/icon_chord.png"
+              BorderWidth="0"
+              BackgroundColor="Transparent"
+              Command="{Binding ToggleSearchVisibilityCommand}">
+      </Button>
+    </Grid>
+
+    <Grid Grid.Row="0" IsVisible="{Binding IsSearchVisible}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+
+      <Button Text="Back" Command="{Binding ToggleSearchVisibilityCommand}" />
+
+      <SearchBar Grid.Column="1" Text="{Binding SongFilter.Name, Mode=TwoWay}"
+                 Placeholder="Tìm hợp âm|tác giả|ca sĩ"
+                 FontSize="Small"
+                 PlaceholderColor="Gray" />
+    </Grid>
+
+    <ListView Grid.Row="1"
+              HasUnevenRows="true"
+              x:Name="listView"
+              CachingStrategy="RecycleElement"
+              SelectedItem="{Binding SelectedSong, Mode=TwoWay}"
+              ItemsSource="{Binding SearchResults}"
+              ItemTemplate="{StaticResource SongTemplate}" />
+  </Grid>
+</t:MenuContainerPage>

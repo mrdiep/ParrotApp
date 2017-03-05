@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<t:SlideMenuView xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:t="clr-namespace:SlideOverKit"
+                 x:Class="ParrotApp.Views.HomePageSlideMenu"
+                 xmlns:local="clr-namespace:ParrotApp"
+                 BindingContext="{Binding Source={x:Static local:App.Locator}, Path=Navigation}">
+    <StackLayout>
+        <Button Text="BACK" />
+        <ListView ItemsSource="{Binding Navigations}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <StackLayout.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double"
+                                            iOS="50"
+                                            Android="50"
+                                            WinPhone="60" />
+                            </StackLayout.HeightRequest>
+                            <Image HeightRequest="22"
+                                   WidthRequest="22"
+                                   Source="{Binding Icon}" 
+                                   VerticalOptions="Center"/>
+                            <Label Text="{Binding ViewName}"
+                                   VerticalOptions="Center"
+                                   FontAttributes="Bold"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</t:SlideMenuView>

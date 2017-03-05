@@ -1,7 +1,9 @@
 ﻿using ParrotApp.Data;
 using ParrotApp.Helper;
 using ParrotApp.Models;
+using System.Collections.Generic;
 using Xamarin.Forms;
+using System;
 
 namespace ParrotApp.ViewModels
 {
@@ -10,6 +12,7 @@ namespace ParrotApp.ViewModels
         private DataConnection dataConnection;
 
         private SongMetadata _songMetadata;
+        private IEnumerable<SongVersion> _versions;
 
         public SongMetadata SongMetadata
         {
@@ -21,6 +24,18 @@ namespace ParrotApp.ViewModels
             {
                 _songMetadata = value;
                 RaisePropertyChanged();
+            }
+        }
+
+        public IEnumerable<SongVersion> Versions
+        {
+            get
+            {
+                return _versions;
+            }
+            set
+            {
+                _versions = value; RaisePropertyChanged();
             }
         }
 
@@ -49,11 +64,17 @@ namespace ParrotApp.ViewModels
             MessagingCenter.Subscribe<HomeViewModel, SongMetadata>(this, "ViewDetail", (sender, song) =>
             {
                 SongMetadata = song;
+                Versions = GetVersions(song.Id);
                 UpdateDetailView(SongMetadata.Id);
             });
         }
 
-        public void UpdateDetailView(int songId, int?versionId=null)
+        private IEnumerable<SongVersion> GetVersions(int id)
+        {
+            return dataConnection.GetVersions(id);
+        }
+
+        public void UpdateDetailView(int songId, int? versionId = null)
         {
             var song = dataConnection.GetContent(songId);
             var contents = HtmlTemplateContent;

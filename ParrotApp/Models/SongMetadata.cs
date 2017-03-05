@@ -1,19 +1,19 @@
-﻿using SQLite;
-
-namespace ParrotApp.Models
+﻿namespace ParrotApp.Models
 {
     public class SongMetadata
     {
-
         public int Id { get; set; }
 
         public string Title { get; set; }
+
+        public string Description { get; set; }
 
         public string Chord { get; set; }
 
         public string Rhythm { get; set; }
 
         private string author;
+
         public string Author
         {
             get
@@ -27,6 +27,7 @@ namespace ParrotApp.Models
         }
 
         private string singer;
+
         public string Singer
         {
             get

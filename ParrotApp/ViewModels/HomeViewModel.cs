@@ -13,6 +13,7 @@ namespace ParrotApp.ViewModels
 {
     public class HomeViewModel : ViewModelBase
     {
+        private bool _isSearchVisible;
         private DataConnection dataConnection;
         private NavigationService navigationService;
 
@@ -34,6 +35,7 @@ namespace ParrotApp.ViewModels
         }
 
         private SongMetadata _selectedSong;
+
         public SongMetadata SelectedSong
         {
             get { return _selectedSong; }
@@ -48,10 +50,14 @@ namespace ParrotApp.ViewModels
                 }
             }
         }
+
         [Inject]
         public DetailViewModel DetailViewModel { get; set; }
 
         public ICommand SearchSongCommand { get; private set; }
+
+        ICommand _toggleSearchVisibilityCommand;
+        public ICommand ToggleSearchVisibilityCommand => _toggleSearchVisibilityCommand ?? (_toggleSearchVisibilityCommand = new RelayCommand(() => IsSearchVisible = !IsSearchVisible));
 
         public SongFilter SongFilter { get; } = new SongFilter();
 
@@ -66,6 +72,20 @@ namespace ParrotApp.ViewModels
             {
                 await LoadData();
             });
+
+        }
+
+        public bool IsSearchVisible
+        {
+            get
+            {
+                return _isSearchVisible;
+            }
+            set
+            {
+                _isSearchVisible = value;
+                RaisePropertyChanged();
+            }
         }
 
         public void CommandRegister()

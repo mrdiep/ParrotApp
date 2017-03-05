@@ -58,7 +58,16 @@ namespace ParrotApp.Data
             if (!isFirstSetupCompleted)
                 throw new Exception();
 
-            return db.Query<SongMetadata>("select `id` , `title`, `chord`, `author`, `singer` from songmetadata");
+            return db.Query<SongMetadata>("select songmetadata.*, versions.description from songmetadata inner join versions on (songmetadata.id=versions.songId) where versions.`default`=1");
+        }
+
+        internal IEnumerable<SongVersion> GetVersions(int id)
+        {
+            if (!isFirstSetupCompleted)
+                throw new Exception();
+
+            return db.Query<SongVersion>("select * from versions  where songId=" + id);
+
         }
 
         internal async Task WaitFristSetupCompleted()

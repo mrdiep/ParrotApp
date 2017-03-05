@@ -25,6 +25,7 @@ namespace ParrotApp.ViewModels
         public DetailViewModel DetailViewModel => Container.Get<DetailViewModel>();
         public DataConnection DataConnection => Container.Get<DataConnection>();
         public ResourceFileHelper Resources => Container.Get<ResourceFileHelper>();
+        public NavigationViewModel Navigation => Container.Get<NavigationViewModel>();
         public T Get<T>()
         {
             return Container.Get<T>();
@@ -52,6 +53,10 @@ namespace ParrotApp.ViewModels
                 .InSingletonScope();
 
             Kernel.Bind<ResourceFileHelper>()
+                .ToSelf()
+                .InSingletonScope();
+
+            Kernel.Bind<NavigationViewModel>()
                 .ToSelf()
                 .InSingletonScope();
 

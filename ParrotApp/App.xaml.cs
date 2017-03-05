@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using ParrotApp.Helper;
+using ParrotApp.Helper.Covnerters;
 using ParrotApp.ViewModels;
 using ParrotApp.Views;
 using Xamarin.Forms;
-using ParrotApp.Helper;
 
 namespace ParrotApp
 {
@@ -16,10 +13,16 @@ namespace ParrotApp
         public App()
         {
             InitializeComponent();
-            App.Locator =  new ServiceLocator();
-            MainPage = new NavigationPage(new MainPage());
+            foreach (var converter in ConverterHelper.Converters)
+            {
+                Resources[converter.Key] = converter.Value;
+            }
 
-            App.Locator.Get<NavigationService>().Navigation = MainPage.Navigation;
+            Locator = new ServiceLocator();
+
+            MainPage = new NavigationPage(new HomePage());
+
+            Locator.Get<NavigationService>().Navigation = MainPage.Navigation;
         }
 
         protected override void OnStart()

@@ -1,14 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ParrotApp.Views.DetailPage"
-             xmlns:local="clr-namespace:ParrotApp"
-             BindingContext="{Binding Source={x:Static local:App.Locator}, Path=DetailViewModel}">
+<t:MenuContainerPage xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:t="clr-namespace:SlideOverKit"
+                     x:Class="ParrotApp.Views.DetailPage"
+                     xmlns:local="clr-namespace:ParrotApp"
+                     BindingContext="{Binding Source={x:Static local:App.Locator}, Path=DetailViewModel}">
     <ContentPage.Content>
-        <Grid>
+        <StackLayout>
+            <Button Text="Menu" x:Name="menuButton"/>
             <WebView  HeightRequest="1000"
-                     Source="{Binding HtmlSource}"
-                     WidthRequest="1000" />
-        </Grid>
+                      Source="{Binding HtmlSource}"
+                      WidthRequest="1000" />
+        </StackLayout>
     </ContentPage.Content>
-</ContentPage>
+</t:MenuContainerPage>
